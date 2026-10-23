@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b24">
+  <meta name="description" content="AETHER — informasi cuaca, kualitas udara, kesehatan, dan pertanian berbasis data real-time.">
+  <title>AETHER — Weather & Air Intelligence</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- Sidebar navigation -->
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#overview">
+        <span class="brand-mark"><i class="fa-solid fa-leaf"></i></span>
+        <span class="brand-copy">
+          <strong>AETHER</strong>
+          <small>WEATHER INTELLIGENCE</small>
+        </span>
+      </a>
+
+      <div class="nav-label">MENU UTAMA</div>
+      <nav class="side-nav" aria-label="Navigasi utama">
+        <a href="#overview" class="nav-link active">
+          <i class="fa-solid fa-grid-2"></i><span>Overview</span>
+        </a>
+        <a href="#air-quality" class="nav-link">
+          <i class="fa-solid fa-wind"></i><span>Kualitas Udara</span>
+        </a>
+        <a href="#health" class="nav-link">
+          <i class="fa-solid fa-heart-pulse"></i><span>Health Advisor</span>
+        </a>
+        <a href="#agriculture" class="nav-link">
+          <i class="fa-solid fa-seedling"></i><span>Smart Agriculture</span>
+        </a>
+        <a href="#about" class="nav-link">
+          <i class="fa-solid fa-circle-info"></i><span>Tentang AETHER</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-note">
+        <div class="note-icon"><i class="fa-solid fa-earth-asia"></i></div>
+        <strong>Understand your environment.</strong>
+        <p>Data yang lebih baik, keputusan yang lebih bijak.</p>
+        <div class="live-indicator"><span></span> LIVE DATA</div>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="footer-dot"></span>
+        Powered by Open-Meteo
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button mobile-menu" id="menu-toggle"
+                  aria-label="Buka navigasi" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div>
+            <div class="eyebrow">ENVIRONMENTAL INTELLIGENCE</div>
+            <h1>Good day, explorer.</h1>
+            <p class="muted" id="today-date">Memuat tanggal...</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <span class="live-pill"><span></span> LIVE CONDITIONS</span>
+          <button class="icon-button" id="refresh-button"
+                  aria-label="Perbarui data" title="Perbarui data">
+            <i class="fa-solid fa-rotate"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- City search -->
+      <section class="search-row" aria-label="Pencarian kota">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="city-input" type="search"
+                 placeholder="Cari kota, misalnya Malang, Surabaya..."
+                 autocomplete="off" aria-label="Nama kota">
+          <button id="search-button" class="search-button">Explore <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <button class="location-button" id="location-button">
+          <i class="fa-solid fa-location-crosshairs"></i>
+          <span>Lokasi saya</span>
+        </button>
+      </section>
+      <p class="search-hint" id="search-status" role="status">
+        Menyiapkan informasi lingkungan...
+      </p>
+
+      <!-- Overview -->
+      <section id="overview" class="page-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">YOUR LOCAL ENVIRONMENT</div>
+            <h2>Environmental overview</h2>
+          </div>
+          <span class="updated-label"><i class="fa-regular fa-clock"></i> <span id="last-updated">Memuat...</span></span>
+        </div>
+
+        <div class="hero-grid">
+          <article class="weather-hero">
+            <div class="hero-image"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+              <div class="location-label">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="city-name">Surabaya, Indonesia</span>
+              </div>
+              <p class="weather-description" id="weather-description">Memuat kondisi cuaca...</p>
+              <div class="temperature-line">
+                <span id="temperature">--</span><span class="degree">°</span>
+                <span class="weather-symbol" id="weather-symbol"><i class="fa-solid fa-cloud-sun"></i></span>
+              </div>
+              <p class="feels-like">Terasa seperti <strong id="feels-like">--°C</strong></p>
+              <div class="hero-divider"></div>
+              <div class="hero-stats">
+                <div>
+                  <i class="fa-solid fa-droplet"></i>
+                  <span>Kelembapan</span>
+                  <strong id="humidity">--%</strong>
+                </div>
+                <div>
+                  <i class="fa-solid fa-wind"></i>
+                  <span>Kecepatan angin</span>
+                  <strong id="wind-speed">-- km/j</strong>
+                </div>
+                <div>
+                  <i class="fa-solid fa-cloud-rain"></i>
+                  <span>Curah hujan</span>
+                  <strong id="precipitation">-- mm</strong>
+                </div>
+              </div>
+            </div>
+            <div class="hero-watermark"><i class="fa-solid fa-sun"></i></div>
+          </article>
+
+          <article class="aqi-card" id="air-quality">
+            <div class="card-topline">
+              <span class="mini-icon mint"><i class="fa-solid fa-lungs"></i></span>
+              <span class="card-kicker">AIR QUALITY INDEX</span>
+              <span class="status-dot"></span>
+            </div>
+            <h3>Air quality</h3>
+            <p class="muted small">US AQI · Indeks kualitas udara</p>
+            <div class="aqi-reading">
+              <strong id="aqi-value">--</strong>
+              <span id="aqi-label" class="aqi-badge">Memuat...</span>
+            </div>
+            <div class="aqi-scale" aria-label="Skala indeks kualitas udara">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="scale-labels"><span>Baik</span><span>Buruk</span></div>
+            <div class="pollutant-grid">
+              <div class="pollutant">
+                <span>PM2.5</span>
+                <strong id="pm25">-- <small>µg/m³</small></strong>
+              </div>
+              <div class="pollutant">
+                <span>PM10</span>
+                <strong id="pm10">-- <small>µg/m³</small></strong>
+              </div>
+            </div>
+            <a href="#health" class="text-link">Lihat rekomendasi <i class="fa-solid fa-arrow-right"></i></a>
+          </article>
+        </div>
+
+        <!-- Weather metrics -->
+        <div class="metric-grid">
+          <article class="metric-card">
+            <div class="metric-icon lavender"><i class="fa-solid fa-temperature-half"></i></div>
+            <span class="muted small">Feels like</span>
+            <strong id="metric-feels">--°C</strong>
+            <span class="metric-foot">Suhu yang dirasakan</span>
+          </article>
+          <article class="metric-card">
+            <div class="metric-icon blue"><i class="fa-solid fa-droplet"></i></div>
+            <span class="muted small">Humidity</span>
+            <strong id="metric-humidity">--%</strong>
+            <span class="metric-foot">Kelembapan relatif</span>
+          </article>
+          <article class="metric-card">
+            <div class="metric-icon peach"><i class="fa-solid fa-wind"></i></div>
+            <span class="muted small">Wind speed</span>
+            <strong id="metric-wind">-- km/j</strong>
+            <span class="metric-foot">Kecepatan angin</span>
+          </article>
+          <article class="metric-card">
+            <div class="metric-icon green"><i class="fa-solid fa-sun"></i></div>
+            <span class="muted small">UV index</span>
+            <strong id="uv-index">--</strong>
+            <span class="metric-foot" id="uv-label">Indeks ultraviolet</span>
+          </article>
+        </div>
+
+        <!-- Forecast -->
+        <div class="section-heading forecast-heading">
+          <div>
+            <div class="eyebrow">PLAN AHEAD</div>
+            <h2>7-day forecast</h2>
+          </div>
+          <span class="muted small">Prakiraan harian</span>
+        </div>
+        <div class="forecast-grid" id="forecast-grid" aria-live="polite">
+          <div class="loading-card">Memuat prakiraan cuaca...</div>
+        </div>
+      </section>
+
+      <!-- Health recommendations -->
+      <section id="health" class="page-section lower-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">WELLNESS & PREVENTION</div>
+            <h2>Care for yourself</h2>
+            <p class="muted">Saran aktivitas berdasarkan kondisi lingkungan.</p>
+          </div>
+          <span class="section-emoji"><i class="fa-solid fa-heart"></i></span>
+        </div>
+
+        <div class="advice-layout">
+          <article class="advice-card health-card">
+            <div class="advice-title">
+              <span class="advice-icon"><i class="fa-solid fa-person-walking"></i></span>
+              <div><span class="eyebrow">OUTDOOR ACTIVITY</span><h3>Aktivitas luar ruang</h3></div>
+            </div>
+            <p id="health-summary">Menganalisis kondisi lingkungan...</p>
+            <ul id="health-list" class="advice-list">
+              <li>Menunggu data cuaca dan kualitas udara.</li>
+            </ul>
+          </article>
+          <article class="illustration-card">
+            <img
+              src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1000&q=85"
+              alt="Cahaya matahari pagi menyinari lanskap hijau">
+            <div class="illustration-caption">
+              <span class="caption-chip">AETHER INSIGHT</span>
+              <h3>Let the weather guide your day.</h3>
+              <p>Perhatikan kondisi aktual sebelum merencanakan kegiatan.</p>
+            </div>
+          </article>
+        </div>
+        <p class="disclaimer">Informasi ini bersifat edukatif, bukan diagnosis medis. Orang yang sensitif terhadap polusi, anak-anak, lansia, dan orang dengan gangguan pernapasan perlu mengikuti panduan kesehatan yang sesuai.</p>
+      </section>
+
+      <!-- Agriculture -->
+      <section id="agriculture" class="page-section lower-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">CLIMATE-SMART FARMING</div>
+            <h2>Grow with the weather</h2>
+            <p class="muted">Dukungan keputusan pertanian berbasis prakiraan.</p>
+          </div>
+          <span class="section-emoji"><i class="fa-solid fa-seedling"></i></span>
+        </div>
+
+        <div class="farm-banner">
+          <div class="farm-banner-copy">
+            <span class="caption-chip">SMART AGRICULTURE</span>
+            <h3>Small decisions. Healthier harvests.</h3>
+            <p>Gunakan prakiraan hujan, suhu, dan angin untuk merencanakan kegiatan lahan.</p>
+          </div>
+          <div class="farm-art" aria-hidden="true">
+            <i class="fa-solid fa-seedling"></i>
+          </div>
+        </div>
+
+        <div class="farm-advice-grid">
+          <article class="farm-advice-card">
+            <span class="farm-icon blue"><i class="fa-solid fa-cloud-rain"></i></span>
+            <h3>Perencanaan irigasi</h3>
+            <p id="irrigation-advice">Menunggu data curah hujan.</p>
+          </article>
+          <article class="farm-advice-card">
+            <span class="farm-icon orange"><i class="fa-solid fa-temperature-high"></i></span>
+            <h3>Stres panas</h3>
+            <p id="heat-advice">Menunggu data suhu.</p>
+          </article>
+          <article class="farm-advice-card">
+            <span class="farm-icon green"><i class="fa-solid fa-cloud-sun"></i></span>
+            <h3>Waktu kegiatan</h3>
+            <p id="field-advice">Menunggu data cuaca.</p>
+          </article>
+        </div>
+        <p class="disclaimer">Saran irigasi hanya berupa indikasi awal. Kebutuhan air aktual bergantung pada jenis tanaman, fase pertumbuhan, kondisi tanah, drainase, dan pengukuran kelembapan tanah.</p>
+      </section>
+
+      <!-- About and QR -->
+      <section id="about" class="page-section lower-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">THE STORY BEHIND THE DATA</div>
+            <h2>Meet AETHER</h2>
+            <p class="muted">Technology with a purpose.</p>
+          </div>
+        </div>
+
+        <div class="about-grid">
+          <article class="about-card">
+            <span class="about-symbol"><i class="fa-solid fa-earth-asia"></i></span>
+            <h3>One environment, many decisions.</h3>
+            <p>AETHER menggabungkan informasi cuaca dan kualitas udara menjadi rekomendasi sederhana untuk aktivitas harian serta perencanaan pertanian.</p>
+            <div class="tech-tags"><span>Open-Meteo API</span><span>JavaScript</span><span>Responsive Web</span></div>
+          </article>
+
+          <article class="qr-card">
+            <div>
+              <span class="eyebrow">SHARE THE EXPERIENCE</span>
+              <h3>Take AETHER with you.</h3>
+              <p class="muted small">Pindai kode QR untuk membuka situs ini dari perangkat lain.</p>
+            </div>
+            <div class="qr-frame">
+              <img id="qr-image" alt="QR code untuk membuka situs AETHER"
+                   src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;data=https%3A%2F%2Fexample.com">
+            </div>
+            <p id="qr-status" class="qr-status">QR akan mengikuti alamat situs yang sedang dibuka.</p>
+            <button id="copy-link" class="outline-button">
+              <i class="fa-solid fa-link"></i> Salin alamat situs
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <a href="#overview" class="footer-brand"><i class="fa-solid fa-leaf"></i> AETHER</a>
+        <p>Made for a healthier relationship with our environment.</p>
+        <p class="footer-meta">Weather & air quality data by Open-Meteo · <span id="footer-year"></span></p>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
